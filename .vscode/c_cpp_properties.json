@@ -7,7 +7,7 @@
                 "${workspaceFolder}/Utils/inc",
                 "${env:AVR_ROOT}/avr/include"
             ],
-            "compilerPath": "${env:AVR_ROOT}\\bin\\avr-gcc.exe",
+            "compilerPath": "3rd_party/avr8-gnu-toolchain-win32_x86_64/bin/avr-gcc.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
@@ -26,7 +26,7 @@
                 "__AVR_ATmega32__",
                 "F_CPU=16000000UL"
             ],
-            "compilerPath": "${env:AVR_ROOT}\\bin\\avr-gcc.exe",
+            "compilerPath": "3rd_party/avr8-gnu-toolchain-win32_x86_64/bin/avr-gcc.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"

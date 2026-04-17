@@ -1,7 +1,10 @@
 @echo off
+setlocal
 
+set "BASE_DIR=%~dp0"
+echo Current dir: %BASE_DIR%
 
-
+set AVR_ROOT=%BASE_DIR%\3rd_party\avr8-gnu-toolchain-win32_x86_64
 echo Root: %AVR_ROOT%
 set AVR_BIN=%AVR_ROOT%\bin
 set AVR_GCC=%AVR_BIN%\avr-gcc
@@ -15,9 +18,9 @@ echo AR: %AVR_AR%
 set C_STANDARD=-std=c17
 set C_FLAGS=-mmcu=atmega32 -DF_CPU=16000000UL -Os %C_STANDARD% -Wall -Wextra -Werror
 
-setlocal
 
 pushd Utils
+
 call Build.bat
 popd
 if errorlevel 1 exit /b 1

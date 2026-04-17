@@ -23,7 +23,7 @@ int main( void )
         driver.writeCommand( &driver, 0xC0 );
         driver.writeString( &driver, cnt );
         driver.writeCommand( &driver, 0xC4 );
-        driver.writeString( &driver, "Seconds0" );
+        driver.writeString( &driver, "Seconds1" );
         // setPinValue( 'D', 1, High );
         ut_waitForMs( 1000 );
         setPinValue( 'D', 1, Low );

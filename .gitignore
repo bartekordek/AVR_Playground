@@ -1,1 +1,6 @@
-/Build/
+*.a
+*.elf
+*.hex
+*.o
+3rd_party/
+Build/
