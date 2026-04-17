@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "AVR-Windows",
+            "includePath": [
+                "${workspaceFolder}/inc",
+                "${workspaceFolder}/Utils/inc",
+                "${env:AVR_ROOT}/avr/include"
+            ],
+            "compilerPath": "${env:AVR_ROOT}\\bin\\avr-gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "AVR-Windows-Atmega32",
+            "includePath": [
+                "${workspaceFolder}/inc",
+                "${workspaceFolder}/Utils/inc",
+                "${env:AVR_ROOT}/avr/include"
+            ],
+            "compilerArgs": [
+                "-mmcu=atmega32"
+            ],
+            "defines": [
+                "__AVR_ATmega32__",
+                "F_CPU=16000000UL"
+            ],
+            "compilerPath": "${env:AVR_ROOT}\\bin\\avr-gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
