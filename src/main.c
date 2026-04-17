@@ -9,7 +9,8 @@ int main( void )
     HD44780Driver driver = create( 'C', 'B', 0, 1 );
     driver.initialize( &driver );
     setPinMode( 'D', 1, Write );
-    dasdas while( 1 )
+
+    while( 1 )
     {
         timeCnt++;
         // Convert timeCnt to String
