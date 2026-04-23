@@ -1,6 +1,7 @@
 #include "utils/utils.h"
 #include <avr/io.h>
 #include <util/delay.h>
+#include <util/crc16.h>
 
 void setPinValue( char inPortName, uint8_t inPinIndex, enum PinValue value )
 {
@@ -69,22 +70,54 @@ void setPinMode( char inPortName, uint8_t inPinIndex, enum PinMode mode )
     {
         case 'a':
         case 'A':
-            DDRA |= ( ( mode == Write ) ? ( 1 << inPinIndex ) : 0 );
+            if( mode == Read )
+            {
+                DDRA |= ( 1 << inPinIndex );
+            }
+            else
+            {
+                DDRA &= ~( 1 << inPinIndex );
+            }
             break;
         case 'b':
         case 'B':
-            DDRB |= ( ( mode == Write ) ? ( 1 << inPinIndex ) : 0 );
+            if( mode == Read )
+            {
+                DDRB |= ( 1 << inPinIndex );
+            }
+            else
+            {
+                DDRB &= ~( 1 << inPinIndex );
+            }
             break;
         case 'c':
         case 'C':
-            DDRC |= ( ( mode == Write ) ? ( 1 << inPinIndex ) : 0 );
+            if( mode == Read )
+            {
+                DDRC |= ( 1 << inPinIndex );
+            }
+            else
+            {
+                DDRC &= ~( 1 << inPinIndex );
+            }
             break;
         case 'd':
         case 'D':
-            DDRD |= ( ( mode == Write ) ? ( 1 << inPinIndex ) : 0 );
+            if( mode == Read )
+            {
+                DDRD |= ( 1 << inPinIndex );
+            }
+            else
+            {
+                DDRD &= ~( 1 << inPinIndex );
+            }
             break;
     }
 }
+
+// DDRx
+// 1 - Pin produce data
+// 0 - Pin gets data
 
 void ut_setWholePortMode( char inPortName, enum PinMode mode )
 {
@@ -138,4 +171,44 @@ void ut_waitForMs( int ms )
     {
         _delay_ms( 1 );
     }
+}
+
+void ut_waitForUs( int us )
+{
+    for( int i = 0; i < us; ++i )
+    {
+        _delay_us( 1 );
+    }
+}
+
+uint8_t ut_getPinValue( char inPortName, uint8_t inPinIndex )
+{
+    switch( inPortName )
+    {
+        case 'a':
+        case 'A':
+            return PIND & ( 1 << inPinIndex );
+        case 'b':
+        case 'B':
+            return PIND & ( 1 << inPinIndex );
+        case 'c':
+        case 'C':
+            return PIND & ( 1 << inPinIndex );
+        case 'd':
+        case 'D':
+            return PIND & ( 1 << inPinIndex );
+    }
+    return 0u;
+}
+
+uint8_t crc8( uint8_t* data, uint8_t len )
+{
+    uint8_t crc = 0;
+
+    for( uint8_t i = 0; i < len; ++i )
+    {
+        crc = _crc_ibutton_update( crc, data[i] );
+    }
+
+    return crc;
 }
