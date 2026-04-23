@@ -1,8 +1,8 @@
 @echo off
 
 echo Compile utils lib...
-echo AVR_GCC: %AVR_GCC%
-%AVR_GCC% -c src/utils.c -Iinc %C_FLAGS% -o utils.o
+echo AVR_GPP: %AVR_GPP%
+%AVR_GPP% -c src/utils.c -Iinc %CPP_FLAGS% -o utils.o
 if errorlevel 1 exit /b 1
 echo Done.
 
