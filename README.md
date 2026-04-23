@@ -66,3 +66,26 @@ You can find them in:
     * Builds firmware and uploads it to the microcontroller:
 
 You can also directly call `Build.bat` or `BuildAndPush.bat`.
+
+
+---
+
+## 📚 References / Inspiration
+
+Most of the code in this repository was written by me for learning and practicing AVR embedded development.
+
+For some modules, I used public examples as references, inspiration, and guidance to better understand implementation details before creating my own version.
+
+### HD44780 LCD Driver
+
+Based on inspiration and reference from:
+
+https://gist.github.com/abitCoding/833311cca359d660c7872e1136fd9c88
+
+### OneWire Implementation
+
+Based on inspiration and reference from:
+
+https://gist.github.com/stecman/9ec74de5e8a5c3c6341c791d9c233adc
+
+These sources helped as a starting point for understanding the protocols and implementation details, while the final code in this repository was adapted and written for this project’s own structure and learning purposes.
