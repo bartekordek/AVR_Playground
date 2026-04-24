@@ -28,4 +28,16 @@ uint8_t ut_getPinValue( char inPortName, uint8_t inPinIndex );
 
 uint8_t crc8( uint8_t* data, uint8_t len );
 
+template <typename Type>
+Type ut_min( Type a, Type b )
+{
+    return ( a < b ) ? a : b;
+}
+
+template <typename Type>
+Type ut_max( Type a, Type b )
+{
+    return ( a > b ) ? a : b;
+}
+
 #endif  // __lib_utils_h__
