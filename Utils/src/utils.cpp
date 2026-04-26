@@ -1,4 +1,4 @@
-#include "utils/utils.h"
+#include "utils/utils.hpp"
 #include <avr/io.h>
 #include <util/delay.h>
 #include <util/crc16.h>
@@ -181,24 +181,24 @@ void ut_waitForUs( int us )
     }
 }
 
-uint8_t ut_getPinValue( char inPortName, uint8_t inPinIndex )
+PinValue ut_getPinValue( char inPortName, uint8_t inPinIndex )
 {
     switch( inPortName )
     {
         case 'a':
         case 'A':
-            return PIND & ( 1 << inPinIndex );
+            return ( PINA & ( 1 << inPinIndex ) ) > 0u ? Low : High;
         case 'b':
         case 'B':
-            return PIND & ( 1 << inPinIndex );
+            return ( PINB & ( 1 << inPinIndex ) ) > 0u ? Low : High;
         case 'c':
         case 'C':
-            return PIND & ( 1 << inPinIndex );
+            return ( PINC & ( 1 << inPinIndex ) ) > 0u ? Low : High;
         case 'd':
         case 'D':
-            return PIND & ( 1 << inPinIndex );
+            return ( PIND & ( 1 << inPinIndex ) ) > 0u ? Low : High;
     }
-    return 0u;
+    return High;
 }
 
 uint8_t crc8( uint8_t* data, uint8_t len )

@@ -1,5 +1,5 @@
 #include "OneWire.hpp"
-#include "utils/utils.h"
+#include "utils/utils.hpp"
 
 // Command bytes
 static const uint8_t kConvertCommand = 0x44;
@@ -35,15 +35,14 @@ bool OneWireDriver::reset()
     setInputHiz();
     ut_waitForUs( 70 );
 
-    uint8_t result = ut_getPinValue( m_ControlPort, m_DataPin );
+    PinValue result = ut_getPinValue( m_ControlPort, m_DataPin );
     ut_waitForUs( 460 );
 
-    return result == 0u;
+    return result == High;
 }
 
 void OneWireDriver::convert()
 {
-    // Send convert command to all devices (this has no response)
     skiprom();
     write( kConvertCommand );
 }
@@ -149,7 +148,7 @@ uint8_t OneWireDriver::onewire_read_bit()
     // Wait for value to stabilise (bit must be read within 15uS of read slot)
     ut_waitForUs( 10 );
 
-    uint8_t result = ut_getPinValue( m_ControlPort, m_DataPin ) != 0;
+    uint8_t result = ut_getPinValue( m_ControlPort, m_DataPin ) != High;
 
     // Wait for the end of the read slot
     ut_waitForUs( 50 );

@@ -1,8 +1,19 @@
 #include "HD44780Driver.hpp"
-#include "utils/utils.h"
+#include "utils/utils.hpp"
 
 #include <avr/io.h>
 #include <util/delay.h>
+
+namespace FunctionSet
+{
+constexpr uint8_t bit8_lines2_5x7px = 0b00111000;
+}
+
+namespace InstructionSet
+{
+constexpr uint8_t cursor_disable = 0b00001100;
+constexpr uint8_t cursor_blink = 0b00001111;
+}  // namespace InstructionSet
 
 HD44780Driver::HD44780Driver( char inControlPort,
                               char inDataPort,
@@ -22,12 +33,8 @@ HD44780Driver::HD44780Driver( char inControlPort,
     ut_setWholePortMode( m_dataPort, Write );
     ut_setWholePortMode( m_controlPort, Write );
 
-    /*Writing the instructions
- 8-bit mode, 2-line,5x8 dot*/
-    writeCommand( 0b00111000 );
-    writeCommand( 0b00111000 );
-    /*Turn On Display, Cursor Off*/
-    writeCommand( 0b00001100 );
+    writeCommand( FunctionSet::bit8_lines2_5x7px );
+    writeCommand( InstructionSet::cursor_disable );
     /*Cursor Shift in Increment Mode*/
     writeCommand( 0b00000110 );
 

@@ -2,7 +2,7 @@
 
 echo Compile utils lib...
 echo AVR_GPP: %AVR_GPP%
-%AVR_GPP% -c src/utils.c -Iinc %CPP_FLAGS% -o utils.o
+%AVR_GPP% -c src/utils.cpp -Iinc %CPP_FLAGS% -o utils.o
 if errorlevel 1 exit /b 1
 echo Done.
 

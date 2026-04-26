@@ -1,6 +1,6 @@
 #include "DS18b20.hpp"
 #include "OneWire.hpp"
-#include "utils/utils.h"
+#include "utils/utils.hpp"
 
 static const uint16_t kDS18B20_DeviceNotFound = 0xA800;
 static const uint8_t kReadScatchPad = 0xBE;
