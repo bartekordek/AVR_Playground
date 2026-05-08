@@ -3,12 +3,10 @@ set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR avr)
 set(CMAKE_CROSSCOMPILING TRUE)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-set(CMAKE_PLATFORM_HAS_INSTALLNAME FALSE)
 set(CMAKE_CXX_LINK_EXECUTABLE "<CMAKE_CXX_COMPILER> <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
 
 # Toolchain (you can also move this to a toolchain file)
 set(TOOLCHAIN_PATH "${CMAKE_SOURCE_DIR}/3rd_party/avr8-gnu-toolchain-win32_x86_64")
-message("DEBUG: TOOLCHAIN_PATH: ${TOOLCHAIN_PATH}")
 set(CMAKE_C_COMPILER   "${TOOLCHAIN_PATH}/bin/avr-gcc.exe")
 set(CMAKE_CXX_COMPILER "${TOOLCHAIN_PATH}/bin/avr-g++.exe")
 set(CMAKE_OBJCOPY "${TOOLCHAIN_PATH}/bin/avr-objcopy.exe")
@@ -24,15 +22,7 @@ project(AVR_Project C CXX)
 set(MCU atmega32)
 set(F_CPU 16000000UL)
 
-
 # Compiler flags
-set(OPTIM_FLAG "-Os")
-set(PRINTF_ENABLED, -Wl,-u,vfprintf -lprintf_flt)
-
-set(CMAKE_C_FLAGS "-mmcu=${MCU} -Os -DF_CPU=16000000UL")
-set(CMAKE_CXX_FLAGS "-mmcu=${MCU} -Os -DF_CPU=16000000UL -std=gnu++17 -Wall -Wextra")
-
-
 add_compile_options(
     -mmcu=atmega32
     -DF_CPU=16000000UL
@@ -42,14 +32,6 @@ add_compile_options(
     -Wl,-u,vfprintf
     -lprintf_flt
     -fno-sized-deallocation
-    # -mmcu=${MCU}
-    # -DF_CPU=${F_CPU}
-    # ${OPTIM_FLAG}
-    # -Wall
-    # -Wextra
-    # ${PRINTF_ENABLED}
-    # # -ffunction-sections
-    # # -fdata-sections
 )
 
 add_link_options(
@@ -62,20 +44,11 @@ add_link_options(
     -lprintf_flt
     -flto
     -fno-sized-deallocation
-    # -Wl,--gc-sections
 )
 
-# Include directories
 include_directories(inc)
-
-# Sources
 file(GLOB_RECURSE SOURCES src/*.cpp src/*.hpp inc/*.hpp Utils/inc/*.hpp Utils/src/*.cpp)
-
-message("CMAKE_CXX_LINK_EXECUTABLE 00: ${CMAKE_CXX_LINK_EXECUTABLE}")
-# ELF output
 add_executable(main.elf ${SOURCES})
-
-message("CMAKE_CXX_LINK_EXECUTABLE 01: ${CMAKE_CXX_LINK_EXECUTABLE}")
 
 # HEX generation
 add_custom_command(
