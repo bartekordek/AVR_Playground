@@ -4,6 +4,20 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "[Windows][CMake][Clean]",
+            "type": "shell",
+            "command": "if exist build rmdir /s /q build",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
             "label": "[Windows][Build]",
             "type": "shell",
             "command": "Build.bat",
@@ -50,14 +64,17 @@
             }
         },
         {
-            "label": "[Windows][CreateCMake]",
+            "label": "[Windows][CMake][Create]",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "-S",
                 ".",
                 "-B",
-                "Build"
+                "Build",
+                "-G",
+                "Ninja",
+                "-DCMAKE_MAKE_PROGRAM=${workspaceFolder}/3rd_party/ninja/ninja.exe"
             ],
             "group": {
                 "kind": "build",
@@ -76,6 +93,113 @@
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "[Windows][CMake][Build]",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "Build",
+                "-v"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "[Windows][CMake][Flash]",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "Build",
+                "--target",
+                "flash",
+                "-v"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "[Windows][Create+Build]",
+            "dependsOn": [
+                "[Windows][CMake][Create]",
+                "[Windows][CMake][Build]"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "[Windows][Clean+Create+Build]",
+            "dependsOn": [
+                "[Windows][CMake][Clean]",
+                "[Windows][CMake][Create]",
+                "[Windows][CMake][Build]"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "[Windows][Build+Flash]",
+            "dependsOn": [
+                "[Windows][CMake][Build]",
+                "[Windows][CMake][Flash]"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "[Windows][Clean+Create+Build+Flash]",
+            "dependsOn": [
+                "[Windows][CMake][Clean]",
+                "[Windows][CMake][Create]",
+                "[Windows][CMake][Build]",
+                "[Windows][CMake][Flash]"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
             }
         }
     ]
