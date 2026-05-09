@@ -4,3 +4,4 @@
 *.o
 3rd_party/
 Build/
+Debug
