@@ -1,5 +1,6 @@
 #include "OneWire.hpp"
 #include "utils/utils.hpp"
+#include "Avr/IMicroController.hpp"
 
 // Command bytes
 static const uint8_t kConvertCommand = 0x44;
@@ -18,8 +19,11 @@ static const uint16_t kDS18B20_CrcCheckFailed = 0x5000;
 uint8_t reset( struct OneWireDriver* self );
 void outputHigh( struct OneWireDriver* self );
 
-OneWireDriver::OneWireDriver( char inControlPort, int8_t inDataPin )
-    : m_ControlPort( inControlPort )
+OneWireDriver::OneWireDriver( IMicroController& inMicroController,
+                              char inControlPort,
+                              int8_t inDataPin )
+    : m_microController( inMicroController )
+    , m_ControlPort( inControlPort )
     , m_DataPin( inDataPin )
 {
 }
@@ -35,10 +39,10 @@ bool OneWireDriver::reset()
     setInputHiz();
     Utils::waitForUs( 70 );
 
-    Utils::PinValue result = Utils::getPinValue( m_ControlPort, m_DataPin );
+    PinValue result = m_microController.getPinValue( m_ControlPort, m_DataPin );
     Utils::waitForUs( 460 );
 
-    return result == Utils::High;
+    return result == PinValue::High;
 }
 
 void OneWireDriver::convert()
@@ -70,7 +74,7 @@ void OneWireDriver::setInputHiz()
 
 void OneWireDriver::outputLow()
 {
-   setPinValue( m_ControlPort, m_DataPin, Utils::Low );
+    setPinValue( m_ControlPort, m_DataPin, Utils::Low );
 }
 
 void OneWireDriver::write( uint8_t inByte )
@@ -148,7 +152,8 @@ uint8_t OneWireDriver::onewire_read_bit()
     // Wait for value to stabilise (bit must be read within 15uS of read slot)
     Utils::waitForUs( 10 );
 
-    uint8_t result = Utils::getPinValue( m_ControlPort, m_DataPin ) != Utils::High;
+    uint8_t result =
+        m_microController.getPinValue( m_ControlPort, m_DataPin ) != PinValue::High;
 
     // Wait for the end of the read slot
     Utils::waitForUs( 50 );

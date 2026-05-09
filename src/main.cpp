@@ -111,7 +111,7 @@ int main( void )
 
     HD44780Driver driver( 'C', 'B', 0, 1, 2 );
 
-    OneWireDriver owDriver( 'D', 0 );
+    OneWireDriver owDriver( atmega, 'D', 0 );
     DS18B20 dsDriver( owDriver );
 
     Utils::setPinMode( 'D', 1, Utils::Write );  // Button
@@ -165,7 +165,7 @@ int main( void )
                 driver.setLightMode( EDisplayLightMode::Off );
             }
 
-            if( Utils::getPinValue( 'D', 1 ) != Utils::Low )
+            if( atmega.getPinValue( 'D', 1 ) != PinValue::Low )
             {
                 seconds = 0;
                 driver.setLightMode( EDisplayLightMode::On );

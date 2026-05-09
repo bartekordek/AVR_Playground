@@ -184,26 +184,6 @@ void waitForUs( int us )
     }
 }
 
-PinValue getPinValue( char inPortName, uint8_t inPinIndex )
-{
-    switch( inPortName )
-    {
-        case 'a':
-        case 'A':
-            return ( PINA & ( 1 << inPinIndex ) ) > 0u ? Low : High;
-        case 'b':
-        case 'B':
-            return ( PINB & ( 1 << inPinIndex ) ) > 0u ? Low : High;
-        case 'c':
-        case 'C':
-            return ( PINC & ( 1 << inPinIndex ) ) > 0u ? Low : High;
-        case 'd':
-        case 'D':
-            return ( PIND & ( 1 << inPinIndex ) ) > 0u ? Low : High;
-    }
-    return High;
-}
-
 uint8_t crc8( uint8_t* data, uint8_t len )
 {
     uint8_t crc = 0;
@@ -215,4 +195,4 @@ uint8_t crc8( uint8_t* data, uint8_t len )
 
     return crc;
 }
-}
+}  // namespace Utils

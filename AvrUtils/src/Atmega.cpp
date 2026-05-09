@@ -37,7 +37,22 @@ void Atmega::setWholePortValue( char inPortName, uint8_t inPortValue )
 
 PinValue Atmega::getPinValue( char inPortName, uint8_t inPinIndex )
 {
-    return PinValue();
+    switch( inPortName )
+    {
+        case 'a':
+        case 'A':
+            return ( PINA & ( 1 << inPinIndex ) ) > 0u ? PinValue::Low : PinValue::High;
+        case 'b':
+        case 'B':
+            return ( PINB & ( 1 << inPinIndex ) ) > 0u ? PinValue::Low : PinValue::High;
+        case 'c':
+        case 'C':
+            return ( PINC & ( 1 << inPinIndex ) ) > 0u ? PinValue::Low : PinValue::High;
+        case 'd':
+        case 'D':
+            return ( PIND & ( 1 << inPinIndex ) ) > 0u ? PinValue::Low : PinValue::High;
+    }
+    return PinValue::High;
 }
 
 void Atmega::waitForMs( int ms )

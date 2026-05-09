@@ -26,8 +26,6 @@ void setWholePortValue( char inPortName, uint8_t inPortValue );
 void waitForMs( int ms );
 void waitForUs( int us );
 
-PinValue getPinValue( char inPortName, uint8_t inPinIndex );
-
 uint8_t crc8( uint8_t* data, uint8_t len );
 
 template <typename Type>
