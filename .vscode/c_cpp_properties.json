@@ -3,9 +3,10 @@
         {
             "name": "AVR-Windows",
             "includePath": [
+                "${env:AVR_ROOT}/avr/include",
+                "${workspaceFolder}/AvrUtils/inc",
                 "${workspaceFolder}/inc",
-                "${workspaceFolder}/Utils/inc",
-                "${env:AVR_ROOT}/avr/include"
+                "${workspaceFolder}/Utils/inc"
             ],
             "compilerPath": "3rd_party/avr8-gnu-toolchain-win32_x86_64/bin/avr-g++.exe",
             "cStandard": "c17",
@@ -15,9 +16,10 @@
         {
             "name": "AVR-Windows-Atmega32",
             "includePath": [
+                "${env:AVR_ROOT}/avr/include",
+                "${workspaceFolder}/AvrUtils/inc",
                 "${workspaceFolder}/inc",
-                "${workspaceFolder}/Utils/inc",
-                "${env:AVR_ROOT}/avr/include"
+                "${workspaceFolder}/Utils/inc"
             ],
             "compilerArgs": [
                 "-mmcu=atmega32"
