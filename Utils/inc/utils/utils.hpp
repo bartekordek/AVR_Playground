@@ -2,6 +2,9 @@
 
 #include <stdint.h>
 
+namespace Utils
+{
+
 enum PinMode
 {
     None = 0,
@@ -17,17 +20,16 @@ enum PinValue
 
 void setPinValue( char inPortName, uint8_t inPinIndex, enum PinValue value );
 void setPinMode( char inPortName, uint8_t inPinIndex, enum PinMode mode );
-void ut_setWholePortMode( char inPortName, enum PinMode mode );
-void ut_setWholePortValue( char inPortName, uint8_t inPortValue );
+void setWholePortMode( char inPortName, enum PinMode mode );
+void setWholePortValue( char inPortName, uint8_t inPortValue );
 
-void ut_waitForMs( int ms );
-void ut_waitForUs( int us );
+void waitForMs( int ms );
+void waitForUs( int us );
 
-PinValue ut_getPinValue( char inPortName, uint8_t inPinIndex );
+PinValue getPinValue( char inPortName, uint8_t inPinIndex );
 
 uint8_t crc8( uint8_t* data, uint8_t len );
-namespace Utils
-{
+
 template <typename Type>
 Type ut_min( Type a, Type b )
 {

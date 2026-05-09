@@ -30,8 +30,8 @@ HD44780Driver::HD44780Driver( char inControlPort,
     setLightMode( EDisplayLightMode::On );
 
     /*PORTC and PORTB Are Output To LCD*/
-    ut_setWholePortMode( m_dataPort, Write );
-    ut_setWholePortMode( m_controlPort, Write );
+    Utils::setWholePortMode( m_dataPort, Utils::Write );
+    Utils::setWholePortMode( m_controlPort, Utils::Write );
 
     writeCommand( FunctionSet::bit8_lines2_5x7px );
     writeCommand( InstructionSet::cursor_disable );
@@ -49,13 +49,13 @@ void HD44780Driver::clearDisplay()
 void HD44780Driver::writeCommand( char command )
 {
     // Set RS to 0
-    setPinValue( m_controlPort, m_RSPin, Low );
+    setPinValue( m_controlPort, m_RSPin, Utils::Low );
     // Set EN to 1 to latch data
-    setPinValue( m_controlPort, m_ENPin, High );
+    setPinValue( m_controlPort, m_ENPin, Utils::High );
     // Put command into the 8-bit PORT
-    ut_setWholePortValue( m_dataPort, command );
+    Utils::setWholePortValue( m_dataPort, command );
     // Clear EN to finish
-    setPinValue( m_controlPort, m_ENPin, Low );
+    setPinValue( m_controlPort, m_ENPin, Utils::Low );
     _delay_ms( 2 );
 }
 
@@ -107,13 +107,13 @@ void HD44780Driver::writeCharacter( char character, uint8_t inColumn, uint8_t in
 void HD44780Driver::writeCharacter( char character )
 {
     // Set RS to 1
-    setPinValue( m_controlPort, m_RSPin, High );
+    Utils::setPinValue( m_controlPort, m_RSPin, Utils::High );
     // Set EN to 1 to latch data
-    setPinValue( m_controlPort, m_ENPin, High );
+    Utils::setPinValue( m_controlPort, m_ENPin, Utils::High );
     // Put character into the 8-bit PORT
-    ut_setWholePortValue( m_dataPort, character );
+    Utils::setWholePortValue( m_dataPort, character );
     // Clear EN to finish
-    setPinValue( m_controlPort, m_ENPin, Low );
+    Utils::setPinValue( m_controlPort, m_ENPin, Utils::Low );
     _delay_ms( 2 );
 }
 
@@ -176,11 +176,11 @@ void HD44780Driver::setLightMode( EDisplayLightMode inMode )
     switch( inMode )
     {
         case EDisplayLightMode::On:
-            setPinValue( m_controlPort, m_LightPin, High );
+            Utils::setPinValue( m_controlPort, m_LightPin, Utils::High );
             break;
 
         case EDisplayLightMode::Off:
-            setPinValue( m_controlPort, m_LightPin, Low );
+            Utils::setPinValue( m_controlPort, m_LightPin, Utils::Low );
             break;
 
         default:

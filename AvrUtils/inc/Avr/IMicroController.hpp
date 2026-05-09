@@ -19,6 +19,7 @@ class IMicroController
 {
 public:
     IMicroController() = default;
+    virtual void enableInterrupts() = 0;
     virtual void initADCPorts() = 0;
     virtual void setPinMode( char inPortName, uint8_t inPinIndex, PinMode inMode ) = 0;
     virtual void setPinValue( char inPortName, uint8_t inPinIndex, PinValue inValue ) = 0;

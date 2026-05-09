@@ -21,7 +21,7 @@ float DS18B20::readTemperature()
     if( m_oneWire.reset() )
     {
         m_oneWire.convert();
-        ut_waitForUs( 750 );
+        Utils::waitForUs( 750 );
 
         // Get the raw 2-byte temperature reading
         int16_t reading = readSingle();
@@ -69,7 +69,7 @@ uint16_t DS18B20::readScratchPad()
     }
 
     // Check the CRC (9th byte) against the 8 bytes of data
-    if( crc8( buffer, 8 ) != buffer[kScratchPad_crc] )
+    if( Utils::crc8( buffer, 8 ) != buffer[kScratchPad_crc] )
     {
         return kDS18B20_CrcCheckFailed;
     }

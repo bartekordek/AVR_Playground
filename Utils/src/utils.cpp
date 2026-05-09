@@ -3,6 +3,9 @@
 #include <util/delay.h>
 #include <util/crc16.h>
 
+namespace Utils
+{
+
 void setPinValue( char inPortName, uint8_t inPinIndex, enum PinValue value )
 {
     switch( inPortName )
@@ -119,7 +122,7 @@ void setPinMode( char inPortName, uint8_t inPinIndex, enum PinMode mode )
 // 1 - Pin produce data
 // 0 - Pin gets data
 
-void ut_setWholePortMode( char inPortName, enum PinMode mode )
+void setWholePortMode( char inPortName, enum PinMode mode )
 {
     switch( inPortName )
     {
@@ -142,7 +145,7 @@ void ut_setWholePortMode( char inPortName, enum PinMode mode )
     }
 }
 
-void ut_setWholePortValue( char inPortName, uint8_t inPortValue )
+void setWholePortValue( char inPortName, uint8_t inPortValue )
 {
     switch( inPortName )
     {
@@ -165,7 +168,7 @@ void ut_setWholePortValue( char inPortName, uint8_t inPortValue )
     }
 }
 
-void ut_waitForMs( int ms )
+void waitForMs( int ms )
 {
     for( int i = 0; i < ms; ++i )
     {
@@ -173,7 +176,7 @@ void ut_waitForMs( int ms )
     }
 }
 
-void ut_waitForUs( int us )
+void waitForUs( int us )
 {
     for( int i = 0; i < us; ++i )
     {
@@ -181,7 +184,7 @@ void ut_waitForUs( int us )
     }
 }
 
-PinValue ut_getPinValue( char inPortName, uint8_t inPinIndex )
+PinValue getPinValue( char inPortName, uint8_t inPinIndex )
 {
     switch( inPortName )
     {
@@ -211,4 +214,5 @@ uint8_t crc8( uint8_t* data, uint8_t len )
     }
 
     return crc;
+}
 }

@@ -30,15 +30,15 @@ bool OneWireDriver::reset()
     output();
 
     outputLow();
-    ut_waitForUs( 480 );
+    Utils::waitForUs( 480 );
 
     setInputHiz();
-    ut_waitForUs( 70 );
+    Utils::waitForUs( 70 );
 
-    PinValue result = ut_getPinValue( m_ControlPort, m_DataPin );
-    ut_waitForUs( 460 );
+    Utils::PinValue result = Utils::getPinValue( m_ControlPort, m_DataPin );
+    Utils::waitForUs( 460 );
 
-    return result == High;
+    return result == Utils::High;
 }
 
 void OneWireDriver::convert()
@@ -54,23 +54,23 @@ void OneWireDriver::skiprom()
 
 void OneWireDriver::outputHigh()
 {
-    setPinValue( m_ControlPort, m_DataPin, High );
+    setPinValue( m_ControlPort, m_DataPin, Utils::High );
 }
 
 void OneWireDriver::output()
 {
-    setPinMode( m_ControlPort, m_DataPin, Read );
+    setPinMode( m_ControlPort, m_DataPin, Utils::Read );
 }
 
 void OneWireDriver::setInputHiz()
 {
-    setPinMode( m_ControlPort, m_DataPin, Write );
+    setPinMode( m_ControlPort, m_DataPin, Utils::Write );
     outputLow();
 }
 
 void OneWireDriver::outputLow()
 {
-    setPinValue( m_ControlPort, m_DataPin, Low );
+   setPinValue( m_ControlPort, m_DataPin, Utils::Low );
 }
 
 void OneWireDriver::write( uint8_t inByte )
@@ -95,24 +95,24 @@ void OneWireDriver::writeBit( uint8_t bit )
 
         // Pull low for less than 15uS to write a high
         outputLow();
-        ut_waitForUs( 5 );
+        Utils::waitForUs( 5 );
         outputHigh();
 
         // Wait for the rest of the minimum slot time
-        ut_waitForUs( 55 );
+        Utils::waitForUs( 55 );
     }
     else
     {  // Write low
 
         // Pull low for 60 - 120uS to write a low
         outputLow();
-        ut_waitForUs( 55 );
+        Utils::waitForUs( 55 );
 
         // Stop pulling down line
         outputHigh();
 
         // Recovery time between slots
-        ut_waitForUs( 5 );
+        Utils::waitForUs( 5 );
     }
 }
 
@@ -140,18 +140,18 @@ uint8_t OneWireDriver::onewire_read_bit()
 {  // Pull the 1-wire bus low for >1uS to generate a read slot
     outputLow();
     output();
-    ut_waitForUs( 1 );
+    Utils::waitForUs( 1 );
 
     // Configure for reading (releases the line)
     setInputHiz();
 
     // Wait for value to stabilise (bit must be read within 15uS of read slot)
-    ut_waitForUs( 10 );
+    Utils::waitForUs( 10 );
 
-    uint8_t result = ut_getPinValue( m_ControlPort, m_DataPin ) != High;
+    uint8_t result = Utils::getPinValue( m_ControlPort, m_DataPin ) != Utils::High;
 
     // Wait for the end of the read slot
-    ut_waitForUs( 50 );
+    Utils::waitForUs( 50 );
 
     return result;
 }

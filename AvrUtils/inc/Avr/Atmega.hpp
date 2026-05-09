@@ -7,6 +7,7 @@ class Atmega: public IMicroController
 public:
     Atmega();
 
+    void enableInterrupts() override;
     void initADCPorts() override;
     void setPinMode( char inPortName, uint8_t inPinIndex, PinMode inMode ) override;
     void setPinValue( char inPortName, uint8_t inPinIndex, PinValue inValue ) override;

@@ -1,3 +1,5 @@
+#include "Avr/Atmega.hpp"
+
 #include <stdio.h>
 #include "HD44780Driver.hpp"
 #include "OneWire.hpp"
@@ -40,6 +42,8 @@ public:
 protected:
 private:
 };
+
+Atmega atmega;
 
 constexpr float tempMin = -20.f;
 constexpr float tempMax = 40.f;
@@ -91,12 +95,7 @@ constexpr bool testLCD{ false };
 
 int main( void )
 {
-    TCCR1A = 0;
-    TCCR1B = ( 1 << CS12 );   // prescaler 256
-    TCNT1 = 3036;             // preload for 1 second
-    TIMSK |= ( 1 << TOIE1 );  // enable overflow interrupt
-
-    sei();
+    atmega.enableInterrupts();
 
     char cnt0[10];
     char cnt1[10];
@@ -115,7 +114,7 @@ int main( void )
     OneWireDriver owDriver( 'D', 0 );
     DS18B20 dsDriver( owDriver );
 
-    setPinMode( 'D', 1, Write );  // Button
+    Utils::setPinMode( 'D', 1, Utils::Write );  // Button
 
     uint8_t seconds{ 0u };
     bool onOff{ true };
@@ -166,14 +165,14 @@ int main( void )
                 driver.setLightMode( EDisplayLightMode::Off );
             }
 
-            if( ut_getPinValue( 'D', 1 ) != Low )
+            if( Utils::getPinValue( 'D', 1 ) != Utils::Low )
             {
                 seconds = 0;
                 driver.setLightMode( EDisplayLightMode::On );
             }
         }
 
-        ut_waitForMs( 1000 );
+        Utils::waitForMs( 1000 );
         ++seconds;
     }
 }
