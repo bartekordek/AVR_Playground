@@ -7,6 +7,40 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 
+class CTime
+{
+public:
+    void incSec()
+    {
+        ++Seconds;
+        if( Seconds > 60u )
+        {
+            Seconds = 0u;
+            ++Minutes;
+        }
+
+        if( Minutes > 60u )
+        {
+            Minutes = 0u;
+            ++Hours;
+        }
+
+        if( Hours > 24u )
+        {
+            Hours = 0u;
+            ++Days;
+        }
+    }
+
+    volatile uint8_t Seconds{ 0u };
+    volatile uint8_t Minutes{ 0u };
+    volatile uint8_t Hours{ 0u };
+    volatile uint8_t Days{ 0u };
+
+protected:
+private:
+};
+
 constexpr float tempMin = -20.f;
 constexpr float tempMax = 40.f;
 
@@ -20,16 +54,29 @@ float getValue( DS18B20& driver )
     return result;
 }
 
-uint32_t someCount{ 0u };
-volatile uint32_t seconds{ 0u };
+float getLastOrNew( DS18B20& driver, float lastTemperature )
+{
+    constexpr float deltaT = 1.f;
+    float result = getValue( driver );
+    while( ( result < lastTemperature - deltaT ) ||
+           ( result > lastTemperature + deltaT ) )
+    {
+        result = getValue( driver );
+    }
+    return result;
+}
+
+volatile uint8_t Seconds{ 0u };
+volatile uint8_t Minutes{ 0u };
+volatile uint8_t Hours{ 0u };
+volatile uint8_t Days{ 0u };
+volatile uint32_t timeSinceScreenTurnedOn{ 0u };
+CTime g_upTime;
 ISR( TIMER1_OVF_vect )
 {
-    ++someCount;
-    if( someCount > 244u )
-    {
-        someCount = 0u;
-        ++seconds;
-    }
+    TCNT1 = 3036;  // reload every second
+    g_upTime.incSec();
+    ++timeSinceScreenTurnedOn;
 }
 
 char indexToCharHex( uint8_t index )
@@ -44,6 +91,13 @@ constexpr bool testLCD{ false };
 
 int main( void )
 {
+    TCCR1A = 0;
+    TCCR1B = ( 1 << CS12 );   // prescaler 256
+    TCNT1 = 3036;             // preload for 1 second
+    TIMSK |= ( 1 << TOIE1 );  // enable overflow interrupt
+
+    sei();
+
     char cnt0[10];
     char cnt1[10];
     char cnt2[10];
@@ -67,6 +121,7 @@ int main( void )
     bool onOff{ true };
 
     float temperature = getValue( dsDriver );
+    float lastTemperature = temperature;
     float temperatureLow = temperature;
     float temperatureHigh = temperature;
 
@@ -87,16 +142,21 @@ int main( void )
         {
             if( onOff )
             {
-                temperature = getValue( dsDriver );
-                temperatureLow = ut_min( temperatureLow, temperature );
-                temperatureHigh = ut_max( temperatureHigh, temperature );
+                temperature = getLastOrNew( dsDriver, lastTemperature );
+                lastTemperature = temperature;
+                temperatureLow = Utils::ut_min( temperatureLow, temperature );
+                temperatureHigh = Utils::ut_max( temperatureHigh, temperature );
 
-                dtostrf( temperature, 4, 2, cnt0 );
-                dtostrf( temperatureLow, 4, 2, cnt1 );
-                dtostrf( temperatureHigh, 4, 2, cnt2 );
+                dtostrf( temperature, 5, 2, cnt0 );
+                dtostrf( temperatureLow, 4, 1, cnt1 );
+                dtostrf( temperatureHigh, 4, 1, cnt2 );
 
-                sprintf( firstLine, "C %s Mi %s", cnt0, cnt1 );
-                sprintf( secondLine, "Max %s, %5d", cnt2, seconds );
+                sprintf( firstLine, "%s %s/%s", cnt0, cnt1, cnt2 );
+                sprintf( secondLine,
+                         "%2dh:%2dm:%2ds",
+                         g_upTime.Hours,
+                         g_upTime.Minutes,
+                         g_upTime.Seconds );
                 driver.writeString( firstLine, 0, 0 );
                 driver.writeString( secondLine, 0, 1 );
             }

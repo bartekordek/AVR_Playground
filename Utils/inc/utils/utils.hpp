@@ -26,7 +26,8 @@ void ut_waitForUs( int us );
 PinValue ut_getPinValue( char inPortName, uint8_t inPinIndex );
 
 uint8_t crc8( uint8_t* data, uint8_t len );
-
+namespace Utils
+{
 template <typename Type>
 Type ut_min( Type a, Type b )
 {
@@ -39,8 +40,6 @@ Type ut_max( Type a, Type b )
     return ( a > b ) ? a : b;
 }
 
-namespace Utils
-{
 template <typename Type>
 Type discardWrongValue( Type inMinValue,
                         Type inMaxValue,
