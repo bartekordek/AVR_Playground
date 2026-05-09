@@ -46,9 +46,13 @@ add_link_options(
     -fno-sized-deallocation
 )
 
+add_subdirectory(AvrUtils)
+
 include_directories(inc)
 file(GLOB_RECURSE SOURCES src/*.cpp src/*.hpp inc/*.hpp Utils/inc/*.hpp Utils/src/*.cpp)
 add_executable(main.elf ${SOURCES})
+# Link AvrUtils to main.elf
+target_link_libraries(main.elf PRIVATE AvrUtils)
 
 # HEX generation
 add_custom_command(
