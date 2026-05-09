@@ -6,7 +6,7 @@ A simple AVR microcontroller playground project with automated toolchain setup f
 ![Windows](https://img.shields.io/badge/os-Windows-0078D6)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-[![WindowsBuild](https://github.com/bartekordek/AVR_Playground/actions/workflows/BuildWindows.yml/badge.svg)](https://github.com/bartekordek/AVR_Playground/actions/workflows/BuildWindows.yml)
+[![CMake Windows](https://github.com/bartekordek/AVR_Playground/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/bartekordek/AVR_Playground/actions/workflows/cmake-windows.yml)
 
 ---
 
