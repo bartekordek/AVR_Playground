@@ -5,19 +5,6 @@
 namespace Utils
 {
 
-enum PinMode
-{
-    None = 0,
-    Read,
-    Write
-};
-
-enum PinValue
-{
-    High = 0u,
-    Low
-};
-
 void waitForMs( int ms );
 void waitForUs( int us );
 
