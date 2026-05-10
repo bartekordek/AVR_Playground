@@ -9,52 +9,6 @@ namespace Utils
 // 1 - Pin produce data
 // 0 - Pin gets data
 
-void setWholePortMode( char inPortName, enum PinMode mode )
-{
-    switch( inPortName )
-    {
-        case 'a':
-        case 'A':
-            DDRA = ( mode == Write ) ? 0xFF : 0x00;
-            break;
-        case 'b':
-        case 'B':
-            DDRB = ( mode == Write ) ? 0xFF : 0x00;
-            break;
-        case 'c':
-        case 'C':
-            DDRC = ( mode == Write ) ? 0xFF : 0x00;
-            break;
-        case 'd':
-        case 'D':
-            DDRD = ( mode == Write ) ? 0xFF : 0x00;
-            break;
-    }
-}
-
-void setWholePortValue( char inPortName, uint8_t inPortValue )
-{
-    switch( inPortName )
-    {
-        case 'a':
-        case 'A':
-            PORTA = inPortValue;
-            break;
-        case 'b':
-        case 'B':
-            PORTB = inPortValue;
-            break;
-        case 'c':
-        case 'C':
-            PORTC = inPortValue;
-            break;
-        case 'd':
-        case 'D':
-            PORTD = inPortValue;
-            break;
-    }
-}
-
 void waitForMs( int ms )
 {
     for( int i = 0; i < ms; ++i )

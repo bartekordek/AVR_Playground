@@ -33,8 +33,8 @@ HD44780Driver::HD44780Driver( MicroController& inMicroController,
     setLightMode( EDisplayLightMode::On );
 
     /*PORTC and PORTB Are Output To LCD*/
-    Utils::setWholePortMode( m_dataPort, Utils::Write );
-    Utils::setWholePortMode( m_controlPort, Utils::Write );
+    m_microController.setWholePortMode( m_dataPort, PinMode::Write );
+    m_microController.setWholePortMode( m_controlPort, PinMode::Write );
 
     writeCommand( FunctionSet::bit8_lines2_5x7px );
     writeCommand( InstructionSet::cursor_disable );
@@ -56,7 +56,7 @@ void HD44780Driver::writeCommand( char command )
     // Set EN to 1 to latch data
     m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::High );
     // Put command into the 8-bit PORT
-    Utils::setWholePortValue( m_dataPort, command );
+    m_microController.setWholePortValue( m_dataPort, command );
     // Clear EN to finish
     m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::Low );
     _delay_ms( 2 );
@@ -114,7 +114,7 @@ void HD44780Driver::writeCharacter( char character )
     // Set EN to 1 to latch data
     m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::High );
     // Put character into the 8-bit PORT
-    Utils::setWholePortValue( m_dataPort, character );
+    m_microController.setWholePortValue( m_dataPort, character );
     // Clear EN to finish
     m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::Low );
     _delay_ms( 2 );

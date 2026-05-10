@@ -18,9 +18,6 @@ enum PinValue
     Low
 };
 
-void setWholePortMode( char inPortName, enum PinMode mode );
-void setWholePortValue( char inPortName, uint8_t inPortValue );
-
 void waitForMs( int ms );
 void waitForUs( int us );
 

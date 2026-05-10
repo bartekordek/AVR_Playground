@@ -130,12 +130,50 @@ void MicroController::setPinValue( char inPortName, uint8_t inPinIndex, PinValue
     }
 }
 
-void MicroController::setWholePortMode( char inPortName, PinMode mode )
+void MicroController::setWholePortMode( char inPortName, PinMode inMode )
 {
+    switch( inPortName )
+    {
+        case 'a':
+        case 'A':
+            DDRA = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            break;
+        case 'b':
+        case 'B':
+            DDRB = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            break;
+        case 'c':
+        case 'C':
+            DDRC = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            break;
+        case 'd':
+        case 'D':
+            DDRD = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            break;
+    }
 }
 
 void MicroController::setWholePortValue( char inPortName, uint8_t inPortValue )
 {
+    switch( inPortName )
+    {
+        case 'a':
+        case 'A':
+            PORTA = inPortValue;
+            break;
+        case 'b':
+        case 'B':
+            PORTB = inPortValue;
+            break;
+        case 'c':
+        case 'C':
+            PORTC = inPortValue;
+            break;
+        case 'd':
+        case 'D':
+            PORTD = inPortValue;
+            break;
+    }
 }
 
 PinValue MicroController::getPinValue( char inPortName, uint8_t inPinIndex )
