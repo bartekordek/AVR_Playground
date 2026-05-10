@@ -114,7 +114,7 @@ int main( void )
     OneWireDriver owDriver( atmega, 'D', 0 );
     DS18B20 dsDriver( owDriver );
 
-    atmega.setPinMode( 'D', 1, PinMode::Write );  // Button
+    atmega.setPinMode( 'D', 1, PinMode::Input );  // Button
 
     uint8_t seconds{ 0u };
     bool onOff{ true };

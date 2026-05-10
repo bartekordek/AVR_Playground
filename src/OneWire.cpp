@@ -63,12 +63,12 @@ void OneWireDriver::outputHigh()
 
 void OneWireDriver::output()
 {
-    m_microController.setPinMode( m_ControlPort, m_DataPin, PinMode::Read );
+    m_microController.setPinMode( m_ControlPort, m_DataPin, PinMode::Output );
 }
 
 void OneWireDriver::setInputHiz()
 {
-    m_microController.setPinMode( m_ControlPort, m_DataPin, PinMode::Write );
+    m_microController.setPinMode( m_ControlPort, m_DataPin, PinMode::Input );
     outputLow();
 }
 

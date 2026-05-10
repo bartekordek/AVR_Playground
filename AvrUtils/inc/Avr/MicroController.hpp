@@ -4,9 +4,8 @@
 
 enum class PinMode : uint8_t
 {
-    None = 0u,
-    Read,
-    Write
+    Output,
+    Input
 };
 
 enum class PinValue : uint8_t

@@ -25,7 +25,7 @@ void MicroController::setPinMode( char inPortName, uint8_t inPinIndex, PinMode i
     {
         case 'a':
         case 'A':
-            if( inMode == PinMode::Read )
+            if( inMode == PinMode::Output )
             {
                 DDRA |= ( 1 << inPinIndex );
             }
@@ -36,7 +36,7 @@ void MicroController::setPinMode( char inPortName, uint8_t inPinIndex, PinMode i
             break;
         case 'b':
         case 'B':
-            if( inMode == PinMode::Read )
+            if( inMode == PinMode::Output )
             {
                 DDRB |= ( 1 << inPinIndex );
             }
@@ -47,7 +47,7 @@ void MicroController::setPinMode( char inPortName, uint8_t inPinIndex, PinMode i
             break;
         case 'c':
         case 'C':
-            if( inMode == PinMode::Read )
+            if( inMode == PinMode::Output )
             {
                 DDRC |= ( 1 << inPinIndex );
             }
@@ -58,7 +58,7 @@ void MicroController::setPinMode( char inPortName, uint8_t inPinIndex, PinMode i
             break;
         case 'd':
         case 'D':
-            if( inMode == PinMode::Read )
+            if( inMode == PinMode::Output )
             {
                 DDRD |= ( 1 << inPinIndex );
             }
@@ -136,19 +136,19 @@ void MicroController::setWholePortMode( char inPortName, PinMode inMode )
     {
         case 'a':
         case 'A':
-            DDRA = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            DDRA = ( inMode == PinMode::Input ) ? 0xFF : 0x00;
             break;
         case 'b':
         case 'B':
-            DDRB = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            DDRB = ( inMode == PinMode::Input ) ? 0xFF : 0x00;
             break;
         case 'c':
         case 'C':
-            DDRC = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            DDRC = ( inMode == PinMode::Input ) ? 0xFF : 0x00;
             break;
         case 'd':
         case 'D':
-            DDRD = ( inMode == PinMode::Write ) ? 0xFF : 0x00;
+            DDRD = ( inMode == PinMode::Input ) ? 0xFF : 0x00;
             break;
     }
 }

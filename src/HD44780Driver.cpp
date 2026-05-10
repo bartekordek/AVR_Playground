@@ -33,8 +33,8 @@ HD44780Driver::HD44780Driver( MicroController& inMicroController,
     setLightMode( EDisplayLightMode::On );
 
     /*PORTC and PORTB Are Output To LCD*/
-    m_microController.setWholePortMode( m_dataPort, PinMode::Write );
-    m_microController.setWholePortMode( m_controlPort, PinMode::Write );
+    m_microController.setWholePortMode( m_dataPort, PinMode::Input );
+    m_microController.setWholePortMode( m_controlPort, PinMode::Input );
 
     writeCommand( FunctionSet::bit8_lines2_5x7px );
     writeCommand( InstructionSet::cursor_disable );

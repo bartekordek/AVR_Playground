@@ -53,13 +53,13 @@ int16_t DS18B20::readSingle()
     m_oneWire.skiprom();
     m_oneWire.write( kReadScatchPad );
 
-    // Read the data from the scratch pad
+    // Output the data from the scratch pad
     return readScratchPad();
 }
 
 uint16_t DS18B20::readScratchPad()
 {
-    // Read scratchpad into buffer (LSB byte first)
+    // Output scratchpad into buffer (LSB byte first)
     static const int8_t kScratchPadLength = 9;
     uint8_t buffer[kScratchPadLength];
 
