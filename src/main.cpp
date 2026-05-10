@@ -1,4 +1,4 @@
-#include "Avr/Atmega.hpp"
+#include "Avr/MicroController.hpp"
 
 #include <stdio.h>
 #include "HD44780Driver.hpp"
@@ -43,7 +43,7 @@ protected:
 private:
 };
 
-Atmega atmega;
+MicroController atmega;
 
 constexpr float tempMin = -20.f;
 constexpr float tempMax = 40.f;
@@ -109,12 +109,12 @@ int main( void )
     memset( firstLine, 0, sizeof( firstLine ) );
     memset( secondLine, 0, sizeof( secondLine ) );
 
-    HD44780Driver driver( 'C', 'B', 0, 1, 2 );
+    HD44780Driver driver( atmega, 'C', 'B', 0, 1, 2 );
 
     OneWireDriver owDriver( atmega, 'D', 0 );
     DS18B20 dsDriver( owDriver );
 
-    Utils::setPinMode( 'D', 1, Utils::Write );  // Button
+    atmega.setPinMode( 'D', 1, PinMode::Write );  // Button
 
     uint8_t seconds{ 0u };
     bool onOff{ true };

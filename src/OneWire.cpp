@@ -1,6 +1,6 @@
 #include "OneWire.hpp"
 #include "utils/utils.hpp"
-#include "Avr/IMicroController.hpp"
+#include "Avr/MicroController.hpp"
 
 // Command bytes
 static const uint8_t kConvertCommand = 0x44;
@@ -19,7 +19,7 @@ static const uint16_t kDS18B20_CrcCheckFailed = 0x5000;
 uint8_t reset( struct OneWireDriver* self );
 void outputHigh( struct OneWireDriver* self );
 
-OneWireDriver::OneWireDriver( IMicroController& inMicroController,
+OneWireDriver::OneWireDriver( MicroController& inMicroController,
                               char inControlPort,
                               int8_t inDataPin )
     : m_microController( inMicroController )
@@ -58,23 +58,23 @@ void OneWireDriver::skiprom()
 
 void OneWireDriver::outputHigh()
 {
-    setPinValue( m_ControlPort, m_DataPin, Utils::High );
+    m_microController.setPinValue( m_ControlPort, m_DataPin, PinValue::High );
 }
 
 void OneWireDriver::output()
 {
-    setPinMode( m_ControlPort, m_DataPin, Utils::Read );
+    m_microController.setPinMode( m_ControlPort, m_DataPin, PinMode::Read );
 }
 
 void OneWireDriver::setInputHiz()
 {
-    setPinMode( m_ControlPort, m_DataPin, Utils::Write );
+    m_microController.setPinMode( m_ControlPort, m_DataPin, PinMode::Write );
     outputLow();
 }
 
 void OneWireDriver::outputLow()
 {
-    setPinValue( m_ControlPort, m_DataPin, Utils::Low );
+    m_microController.setPinValue( m_ControlPort, m_DataPin, PinValue::Low );
 }
 
 void OneWireDriver::write( uint8_t inByte )

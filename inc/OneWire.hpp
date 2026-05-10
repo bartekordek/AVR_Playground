@@ -2,12 +2,12 @@
 
 #include <stdint.h>
 
-class IMicroController;
+class MicroController;
 
 class OneWireDriver
 {
 public:
-    OneWireDriver( IMicroController& inMicroController,
+    OneWireDriver( MicroController& inMicroController,
                    char inControlPort,
                    int8_t inDataPin );
 
@@ -29,7 +29,7 @@ private:
     void writeBit( uint8_t bit );
     uint8_t onewire_read_bit();
 
-    IMicroController& m_microController;
+    MicroController& m_microController;
     char m_ControlPort;
     int8_t m_DataPin;
 };

@@ -1,5 +1,6 @@
 #include "HD44780Driver.hpp"
 #include "utils/utils.hpp"
+#include "Avr/MicroController.hpp"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -15,12 +16,14 @@ constexpr uint8_t cursor_disable = 0b00001100;
 constexpr uint8_t cursor_blink = 0b00001111;
 }  // namespace InstructionSet
 
-HD44780Driver::HD44780Driver( char inControlPort,
+HD44780Driver::HD44780Driver( MicroController& inMicroController,
+                              char inControlPort,
                               char inDataPort,
                               uint8_t inRSPin,
                               uint8_t inENPin,
                               uint8_t inLightPin )
-    : m_controlPort( inControlPort )
+    : m_microController( inMicroController )
+    , m_controlPort( inControlPort )
     , m_dataPort( inDataPort )
     , m_RSPin( inRSPin )
     , m_ENPin( inENPin )
@@ -49,13 +52,13 @@ void HD44780Driver::clearDisplay()
 void HD44780Driver::writeCommand( char command )
 {
     // Set RS to 0
-    setPinValue( m_controlPort, m_RSPin, Utils::Low );
+    m_microController.setPinValue( m_controlPort, m_RSPin, PinValue::Low );
     // Set EN to 1 to latch data
-    setPinValue( m_controlPort, m_ENPin, Utils::High );
+    m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::High );
     // Put command into the 8-bit PORT
     Utils::setWholePortValue( m_dataPort, command );
     // Clear EN to finish
-    setPinValue( m_controlPort, m_ENPin, Utils::Low );
+    m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::Low );
     _delay_ms( 2 );
 }
 
@@ -107,13 +110,13 @@ void HD44780Driver::writeCharacter( char character, uint8_t inColumn, uint8_t in
 void HD44780Driver::writeCharacter( char character )
 {
     // Set RS to 1
-    Utils::setPinValue( m_controlPort, m_RSPin, Utils::High );
+    m_microController.setPinValue( m_controlPort, m_RSPin, PinValue::High );
     // Set EN to 1 to latch data
-    Utils::setPinValue( m_controlPort, m_ENPin, Utils::High );
+    m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::High );
     // Put character into the 8-bit PORT
     Utils::setWholePortValue( m_dataPort, character );
     // Clear EN to finish
-    Utils::setPinValue( m_controlPort, m_ENPin, Utils::Low );
+    m_microController.setPinValue( m_controlPort, m_ENPin, PinValue::Low );
     _delay_ms( 2 );
 }
 
@@ -176,11 +179,11 @@ void HD44780Driver::setLightMode( EDisplayLightMode inMode )
     switch( inMode )
     {
         case EDisplayLightMode::On:
-            Utils::setPinValue( m_controlPort, m_LightPin, Utils::High );
+            m_microController.setPinValue( m_controlPort, m_LightPin, PinValue::High );
             break;
 
         case EDisplayLightMode::Off:
-            Utils::setPinValue( m_controlPort, m_LightPin, Utils::Low );
+            m_microController.setPinValue( m_controlPort, m_LightPin, PinValue::Low );
             break;
 
         default:

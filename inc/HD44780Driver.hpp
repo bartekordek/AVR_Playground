@@ -8,10 +8,13 @@ enum class EDisplayLightMode : uint8_t
     Off,
 };
 
+class MicroController;
+
 class HD44780Driver
 {
 public:
-    HD44780Driver( char inControlPort,
+    HD44780Driver( MicroController& inMicroController,
+                   char inControlPort,
                    char inDataPort,
                    uint8_t inRSPin,
                    uint8_t inENPin,
@@ -29,6 +32,7 @@ public:
 
 protected:
 private:
+    MicroController& m_microController;
     char m_controlPort;
     char m_dataPort;
     uint8_t m_RSPin;
