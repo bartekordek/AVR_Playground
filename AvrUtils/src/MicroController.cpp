@@ -195,11 +195,3 @@ PinValue MicroController::getPinValue( char inPortName, uint8_t inPinIndex )
     }
     return PinValue::High;
 }
-
-void MicroController::waitForMs( int ms )
-{
-}
-
-void MicroController::waitForUs( int us )
-{
-}

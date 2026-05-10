@@ -26,8 +26,6 @@ public:
     void setWholePortMode( char inPortName, PinMode mode );
     void setWholePortValue( char inPortName, uint8_t inPortValue );
     PinValue getPinValue( char inPortName, uint8_t inPinIndex );
-    void waitForMs( int ms );
-    void waitForUs( int us );
 
 protected:
 private:
