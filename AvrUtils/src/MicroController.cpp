@@ -1,5 +1,6 @@
 #include "Avr/MicroController.hpp"
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 MicroController::MicroController()
 {
@@ -7,6 +8,43 @@ MicroController::MicroController()
 
 void MicroController::initADCPorts()
 {
+    // AVCC reference
+    ADMUX = ( 1 << REFS0 );
+
+    // Enable ADC, prescaler 128 (16MHz -> 125kHz ADC clock)
+    ADCSRA = ( 1 << ADEN ) | ( 1 << ADPS2 ) | ( 1 << ADPS1 ) | ( 1 << ADPS0 );
+}
+
+uint16_t MicroController::ADC_Read( uint8_t channel )
+{
+    // Select channel (0–7)
+    ADMUX = ( ADMUX & 0xE0 ) | ( channel & 0x07 );
+
+    // Start conversion
+    ADCSRA |= ( 1 << ADSC );
+
+    // Wait until done
+    while( ADCSRA & ( 1 << ADSC ) )
+    {
+    }
+
+    return ADC;
+}
+
+uint16_t MicroController::ADC_ReadStable( uint8_t channel )
+{
+    // throw away first reading after channel switch
+    ADC_Read( channel );
+
+    uint32_t sum = 0;
+
+    for( uint8_t i = 0; i < 16; i++ )
+    {
+        sum += ADC_Read( channel );
+        _delay_ms( 2 );
+    }
+
+    return (uint16_t)( sum / 16 );
 }
 
 void MicroController::enableInterrupts()

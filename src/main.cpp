@@ -116,8 +116,12 @@ int main( void )
 
     atmega.setPinMode( 'D', 1, PinMode::Input );  // Button
 
+    atmega.initADCPorts();
+
     uint8_t seconds{ 0u };
     bool onOff{ true };
+
+    uint16_t soilVal{ 0u };
 
     float temperature = getValue( dsDriver );
     float lastTemperature = temperature;
@@ -141,7 +145,8 @@ int main( void )
         {
             if( onOff )
             {
-                temperature = getLastOrNew( dsDriver, lastTemperature );
+                soilVal = atmega.ADC_ReadStable( 0 );
+                float temperature = getLastOrNew( dsDriver, lastTemperature );
                 lastTemperature = temperature;
                 temperatureLow = Utils::ut_min( temperatureLow, temperature );
                 temperatureHigh = Utils::ut_max( temperatureHigh, temperature );
@@ -151,18 +156,19 @@ int main( void )
                 dtostrf( temperatureHigh, 4, 1, cnt2 );
 
                 sprintf( firstLine, "%s %s/%s", cnt0, cnt1, cnt2 );
-                sprintf( secondLine,
-                         "%2dh:%2dm:%2ds",
-                         g_upTime.Hours,
-                         g_upTime.Minutes,
-                         g_upTime.Seconds );
+                // sprintf( secondLine,
+                //          "%2dh:%2dm:%2ds",
+                //          g_upTime.Hours,
+                //          g_upTime.Minutes,
+                //          g_upTime.Seconds );
+                sprintf( secondLine, "Soil: %u", soilVal );
                 driver.writeString( firstLine, 0, 0 );
                 driver.writeString( secondLine, 0, 1 );
             }
 
             if( seconds > 8 )
             {
-                driver.setLightMode( EDisplayLightMode::Off );
+                // driver.setLightMode( EDisplayLightMode::Off );
             }
 
             if( atmega.getPinValue( 'D', 1 ) != PinValue::Low )

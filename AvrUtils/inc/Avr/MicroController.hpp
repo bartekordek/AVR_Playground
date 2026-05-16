@@ -20,6 +20,9 @@ public:
     MicroController();
     void enableInterrupts();
     void initADCPorts();
+    uint16_t ADC_ReadStable( uint8_t channel );
+    uint16_t ADC_Read( uint8_t channel );
+
     void setPinMode( char inPortName, uint8_t inPinIndex, PinMode inMode );
     void setPinValue( char inPortName, uint8_t inPinIndex, PinValue inValue );
     void setWholePortMode( char inPortName, PinMode mode );
