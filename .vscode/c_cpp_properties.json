@@ -8,7 +8,7 @@
                 "${workspaceFolder}/inc",
                 "${workspaceFolder}/Utils/inc"
             ],
-            "compilerPath": "3rd_party/avr8-gnu-toolchain-win32_x86_64/bin/avr-g++.exe",
+            "compilerPath": "${workspaceFolder}/3rd_party/avr8-gnu-toolchain-win32_x86_64/bin/avr-g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
@@ -28,7 +28,7 @@
                 "__AVR_ATmega32__",
                 "F_CPU=16000000UL"
             ],
-            "compilerPath": "3rd_party/avr8-gnu-toolchain-win32_x86_64/bin/avr-g++.exe",
+            "compilerPath": "${workspaceFolder}/3rd_party/avr8-gnu-toolchain-win32_x86_64/bin/avr-g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
